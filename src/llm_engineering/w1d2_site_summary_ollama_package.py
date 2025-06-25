@@ -1,13 +1,12 @@
 # Standard Library Imports
-import os
 import re
 from textwrap import dedent
+from urllib.parse import urlparse
 
 # Third-Party Imports
 import requests
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
-from openai import OpenAI
+import ollama
 
 
 class Website:
@@ -76,17 +75,6 @@ class SystemPrompts:
         return PROMPT
 
 
-def get_api_key():
-    """Retrieve and validate the OpenAI API key."""
-    load_dotenv(override=True)
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable not set")
-    if not api_key.startswith("sk-"):
-        raise ValueError("Invalid API Key. Should start with 'sk-'")
-    return api_key
-
-
 def create_user_prompt(website):
     """Generate a user prompt with website content for summarization."""
     TEMPLATE = dedent("""\
@@ -100,11 +88,21 @@ def create_user_prompt(website):
 
 
 def create_messages(website):
-    """Create the messages structure for the OpenAI API call."""
+    """Create the messages structure for the Ollama API call."""
     return [
         {"role": "system", "content": SystemPrompts.content_analyst()},
         {"role": "user", "content": create_user_prompt(website)}
     ]
+
+
+def summarize_website(url):
+    """Generate a summary of the content at the given URL."""
+    MODEL = "llama3.2"  
+    website = Website(url)
+    # Use the chat function directly from the ollama package
+    print("Using ollama python package")
+    response = ollama.chat(model=MODEL, messages=create_messages(website))
+    return response['message']['content']
 
 
 def is_valid_url(url):
@@ -126,18 +124,6 @@ def is_valid_url(url):
         re.IGNORECASE
     )
     return bool(re.match(pattern, url))
-
-
-def summarize_website(url):
-    """Generate a summary of the content at the given URL."""
-    openai = OpenAI(api_key=get_api_key())
-    website = Website(url)
-    print("Using openai api")
-    response = openai.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=create_messages(website)
-    )
-    return response.choices[0].message.content
 
 
 def normalize_url(url):
@@ -162,7 +148,6 @@ def main():
         url = normalize_url(url_input)
         print(f"\nFetching and summarizing content of: {url}")
         break
-        
     try:
         summary = summarize_website(url)
         print("\nSummary:")

@@ -1,5 +1,4 @@
 # Standard Library Imports
-import os
 import re
 from textwrap import dedent
 from urllib.parse import urlparse
@@ -106,6 +105,7 @@ def summarize_website(url):
         "messages": create_messages(website),
         "stream": False
     }
+    print("Using ollama api")
     response = requests.post(OLLAMA_API, json=payload, headers=HEADERS)
     return response.json()['message']['content']
 

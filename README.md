@@ -33,12 +33,10 @@ This repository contains Python programs created as part of the [LLM Engineering
 
 ## Usage
 
-Run either script to summarize the hardcoded URL:
+Run either script to summarize a URL:
 ```bash
 python w1d1-site-summary.py
 # or
 python w1d2-site-summary-ollama.py
 ```
-
-Note: The URL is currently hardcoded in the script. To change the URL, modify the `url` variable in the `main()` function.
 
