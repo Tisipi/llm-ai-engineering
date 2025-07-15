@@ -51,7 +51,7 @@ python src/llm_engineering/w1d2_site_summary_ollama_openai.py
 `w1d5_site_brochure.py`
 - Analyzes a company website and generates a professional brochure
 - Uses OpenAI's API to fetch relevant links on the website
-- Uses OpenAI's API to generate a brochure from the content at the given URL.
+- Uses OpenAI's API to generate a brochure from the content of the relevant links of the website
 - Demonstrates structured JSON responses from the LLM
 
 ```bash
