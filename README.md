@@ -58,6 +58,17 @@ python src/llm_engineering/w1d2_site_summary_ollama_openai.py
 python src/llm_engineering/w1d5_site_brochure.py
 ```
 
+### 6. Website Brochure Generator (Streaming)
+`w1d5_site_brochure_streaming.py`
+- Similar functionality as the brochure generator above but uses streaming
+- Analyzes a company website and generates a professional brochure
+- Uses OpenAI's API to fetch relevant links on the website
+- Uses OpenAI's API to generate a brochure from the content of the relevant links of the website
+
+```bash
+python src/llm_engineering/w1d5_site_brochure_streaming.py
+```
+
 ## Setup
 
 1. Install required packages:
